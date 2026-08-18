@@ -1,0 +1,6 @@
+queries:
+  - 'cat:cs.AI AND (agent OR agentic)'
+  - 'cat:cs.SE AND (coding agent OR software agent)'
+  - 'all:(LLM routing OR model routing OR harness)'
+  - 'all:(agent verification OR agent benchmark OR agent protocol)'
+max_results_per_query: 20

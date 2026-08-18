@@ -1,0 +1,39 @@
+services:
+  forgejo:
+    image: codeberg.org/forgejo/forgejo:16
+    restart: unless-stopped
+    environment:
+      USER_UID: "1000"
+      USER_GID: "1000"
+    volumes:
+      - forgejo_data:/data
+    ports:
+      - "3000:3000"
+      - "2222:22"
+
+  qdw-forge:
+    build: ../qdw-forge
+    restart: unless-stopped
+    environment:
+      QDW_FORGE_DB: /data/forge.db
+      QDW_FORGE_LEASE_SECRET: ${QDW_FORGE_LEASE_SECRET:?set at least 32 bytes}
+    volumes:
+      - forge_data:/data
+    ports:
+      - "8788:8788"
+
+  qdw-sandbox:
+    build: ../qdw-sandbox
+    restart: unless-stopped
+    environment:
+      QDW_SANDBOX_BACKEND: docker
+      QDW_SANDBOX_ALLOW_PROCESS: "0"
+    volumes:
+      - sandbox_data:/data
+    ports:
+      - "8787:8787"
+
+volumes:
+  forgejo_data:
+  forge_data:
+  sandbox_data:
