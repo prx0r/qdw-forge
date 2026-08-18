@@ -35,7 +35,9 @@ def lease(req:LeaseRequest):
         l,t=state().leases.create(req); return {'lease':l.model_dump(mode='json'),'token':t}
     except LookupError as e: raise HTTPException(404,str(e))
 @app.post('/v1/invoke')
-def invoke(req:InvocationRequest): return state().invocations.invoke(req).model_dump(mode='json')
+def invoke(req:InvocationRequest):
+    try: return state().invocations.invoke(req).model_dump(mode='json')
+    except (ValueError, PermissionError, LookupError) as e: raise HTTPException(400, str(e))
 @app.get('/v1/invocations/{invocation_id}')
 def invocation(invocation_id:str):
     try: return state().invocations.get(invocation_id).model_dump(mode='json')

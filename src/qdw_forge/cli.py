@@ -7,7 +7,7 @@ from .frontier import parse_arxiv_atom
 from .repo2bench import HistoryTaskBuilder
 
 def app(db):
-    secret=os.environ.get('QDW_FORGE_LEASE_SECRET','dev-only-not-for-production-000000000000').encode()
+    secret=os.environ.get('QDW_FORGE_LEASE_SECRET','dev-only-not-for-production-000000000000000000').encode()
     return ForgeApp(db,secret)
 
 def main():
